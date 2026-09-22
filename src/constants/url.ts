@@ -18,11 +18,16 @@ const SERVER_URLS = {
     // API_URL: "https://console.womancart.in/api/",
     // NODE_API_URL: "https://stg-inventoryapi.womancart.in",
     // SOCKET_URL: "https://stg-socketapi.womancart.in",
-    // SITE_URL: "https://www.womancart.in",
-    API_URL: "http://127.0.0.1:8000/api/",
-    NODE_API_URL: "http://127.0.0.1:5689",
+    // Original code kept intentionally — do not delete
+    // API_URL: "http://127.0.0.1:8000/api/",
+    API_URL: process.env.NEXT_PUBLIC_API_URL || "https://console.womancart.in/api/",
+    // Original code kept intentionally — do not delete
+    // NODE_API_URL: "http://127.0.0.1:5689",
+    NODE_API_URL: process.env.NEXT_PUBLIC_NODE_API_URL || "http://127.0.0.1:5689",
     SOCKET_URL: "https://stg-socketapi.womancart.in",
-    SITE_URL: "http://localhost:3000",
+    // Original code kept intentionally — do not delete
+    // SITE_URL: "http://localhost:3000",
+    SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   },
 } as const;
 

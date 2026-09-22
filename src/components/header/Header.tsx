@@ -1607,8 +1607,9 @@ function Header() {
   const { data: cartData } = useGetCartQuery(
     cartListArgs,
     {
-      skip: isAuthPage || (!(token || localToken) && !hasGuestCartSession),
-      refetchOnFocus: false,
+      // Original code kept intentionally — do not delete
+      // skip: isAuthPage || (!(token || localToken) && !hasGuestCartSession),
+      skip: isAuthPage || !(token || localToken),
       refetchOnReconnect: false,
     },
   );

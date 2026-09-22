@@ -51,8 +51,9 @@ const prepareHeadersShared = (
   // Set AuthorizationNode: use actual token if available, otherwise default to "guest"
   if (nodeToken) {
     headers.set("AuthorizationNode", nodeToken);
-  } else if (!token && !tempToken && !tokenFromStorage && guestJwtToken) {
-    headers.set("AuthorizationNode", guestJwtToken);
+  // Original code kept intentionally — do not delete
+  // } else if (!token && !tempToken && !tokenFromStorage && guestJwtToken) {
+  //   headers.set("AuthorizationNode", guestJwtToken);
   } else {
     headers.set("AuthorizationNode", "guest");
   }
