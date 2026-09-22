@@ -1,0 +1,58 @@
+version: 0.2
+
+# How env vars flow into the app:
+#   * NEXT_PUBLIC_* values are inlined into the browser bundle at ⁠ next build ⁠
+#     time. They are fetched from SSM and baked in during ⁠ docker build ⁠
+#     (see scripts/load-ssm-env.mjs + Dockerfile). Runtime secrets are too late
+#     for these.
+#   * Server-only vars (GOOGLE_MAPS_API_KEY, GOOGLE_*_URL, ...) are read live by
+#     the Next.js API routes at request time. Those come from the ECS task
+#     definition ⁠ secrets ⁠ block (also SSM) at container runtime.
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: ap-south-1
+    ACCOUNT_ID: 328833518668
+    REPOSITORY_NAME: prod-womancart_website_react
+    IMAGE_TAG: latest
+    ECS_CLUSTER: prod-womancart_website_react
+    ECS_SERVICE: prod-womancart_website_react-service
+    # All build-time params live under this prefix. Add new params here in SSM
+    # and they are picked up automatically — no buildspec/Dockerfile changes.
+    SSM_PARAM_PATH: /womancart/prod/web/react/
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to ECR...
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      # Export the CodeBuild role's credentials so the SSM fetch can run INSIDE
+      # the docker build. Passed as a BuildKit secret -> never stored in a layer.
+      - echo Exporting build credentials for in-build SSM fetch...
+      - aws configure export-credentials --format env-no-export > aws_creds.env
+
+  build:
+    commands:
+      - echo Building Docker image with SSM-loaded build-time env...
+      - |
+        DOCKER_BUILDKIT=1 docker build \
+          --secret id=aws_creds,src=aws_creds.env \
+          --build-arg AWS_REGION=$AWS_DEFAULT_REGION \
+          --build-arg SSM_PARAM_PATH=$SSM_PARAM_PATH \
+          -t $REPOSITORY_NAME .
+      - rm -f aws_creds.env
+      - echo Tagging image...
+      - docker tag $REPOSITORY_NAME:$IMAGE_TAG $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME:$IMAGE_TAG
+      - echo Pushing image...
+      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME:$IMAGE_TAG
+
+  post_build:
+    commands:
+      - echo Creating imagedefinitions.json...
+      - printf '[{"name":"frontend-container","imageUri":"%s"}]' $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$REPOSITORY_NAME:$IMAGE_TAG > imagedefinitions.json
+      - echo Triggering ECS deployment...
+      - aws ecs update-service --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment --region $AWS_DEFAULT_REGION
+
+artifacts:
+  files:
+    - imagedefinitions.json

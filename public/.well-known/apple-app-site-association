@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "NW4XTSJR8Q.com.app.womencart",
+        "paths": [
+          "/referCode*",
+          "/product*",
+          "/productKit*"
+        ]
+      }
+    ]
+  }
+}

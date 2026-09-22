@@ -1,0 +1,73 @@
+# WomanCart robots.txt
+# Generated: 2026-06-09
+# Platform: WomanCart — India's Women-First Commerce Platform
+
+User-agent: *
+
+# Disallow non-indexable paths
+Disallow: /account/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /wishlist/
+Disallow: /search/
+Disallow: /orders/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /cdn-cgi/
+
+# Disallow parameter-based duplicate pages
+Disallow: /*?page=
+Disallow: /*?sort=
+Disallow: /*?filter=
+Disallow: /*?variant=
+Disallow: /*?ref=
+Disallow: /*?utm_
+
+# Allow all indexable paths
+Allow: /beauty/
+Allow: /fashion/
+Allow: /jewellery/
+Allow: /care-essentials/
+Allow: /health-wellness/
+Allow: /kids/
+Allow: /home-kitchen/
+Allow: /gifting/
+Allow: /collection/
+Allow: /brand/
+Allow: /product/
+Allow: /discover/
+Allow: /blog/
+Allow: /about/
+Allow: /contact/
+Allow: /privacy-policy/
+Allow: /terms/
+Allow: /
+
+# Sitemap
+Sitemap: https://www.origin.womancart.in/sitemap_index.xml
+
+# ── Google-specific rules ──────────────────────────────────
+User-agent: Googlebot
+Disallow: /account/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /*?variant=
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ── Block AI training bots ────────────────────────────────
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /

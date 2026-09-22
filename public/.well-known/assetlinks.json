@@ -1,0 +1,16 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.igs.womencart",
+      "sha256_cert_fingerprints": [
+        "ED:C9:DD:96:4B:D9:E6:3B:BC:C8:8F:BD:1D:CA:E3:56:23:61:25:50:7C:52:0A:1B:FB:77:AD:A2:BD:FC:87:BD",
+        "B4:13:99:D5:E5:02:D8:72:48:80:79:27:79:1E:0F:33:3E:71:B7:A9:4F:00:07:F2:5E:20:BF:75:4E:90:8D:E4",
+        "38:05:73:A5:41:FD:59:45:EC:AA:4F:09:91:6E:A3:20:B3:00:C9:81:36:E5:CA:AF:BE:C8:88:67:22:14:50:A5"
+      ]
+    }
+  }
+]

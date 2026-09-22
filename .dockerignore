@@ -1,0 +1,23 @@
+node_modules
+.next
+.git
+.gitignore
+.env
+.env.*
+# Never copy credential files into the build context (passed as BuildKit secret)
+aws_creds.env
+*.env.creds
+*.md
+Dockerfile*
+docker-compose*
+.womancartBuild
+womancartBuild
+.cursor
+.vscode
+.idea
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+coverage
+*.log

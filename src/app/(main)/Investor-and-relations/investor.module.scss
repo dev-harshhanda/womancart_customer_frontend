@@ -1,0 +1,163 @@
+@import "../../variables.scss";
+
+.layoutWrapper {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+
+  @include breakpoint(mobile) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* SIDEBAR STYLES */
+.sidebar {
+  flex: 0 0 300px;
+  width: 300px;
+
+  @include breakpoint(mobile) {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .navList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid rgba(0, 0, 0, 0.05); // light outer container for the list (like second image)
+    border-radius: 8px;
+    background-color: $c_white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+
+    .navItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      cursor: pointer;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: $transition;
+      margin-bottom: 0 !important;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .navText {
+        font-size: 15px;
+        font-weight: 500;
+        color: $c_black_1;
+        transition: $transition;
+      }
+
+      .navIcon {
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.3);
+        transition: $transition;
+      }
+
+      &:hover {
+        background-color: rgba($c_primary, 0.02);
+
+        .navText {
+          color: $c_primary;
+        }
+
+        .navIcon {
+          color: $c_primary;
+          transform: translateX(3px);
+        }
+      }
+
+      &.active {
+        // Based on the first screenshot: active item has a pink border wrapper
+        border: 1px solid $c_primary;
+        // Or based on second screenshot: simple text coloring
+        // Let's implement screenshot 1 style since it's the primary reference:
+        border-radius: 4px;
+        background-color: $c_white;
+        z-index: 1;
+
+        .navText {
+          color: $c_primary;
+          font-weight: 600;
+        }
+
+        .navIcon {
+          color: $c_primary;
+        }
+      }
+    }
+  }
+}
+
+/* CONTENT AREA STYLES */
+.contentArea {
+  flex: 1;
+  min-width: 0;
+
+  // A slight divider effect if needed, but flex gap usually handles it nicely
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -15px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: rgba(0, 0, 0, 0.05);
+
+    @include breakpoint(mobile) {
+      display: none;
+    }
+  }
+}
+
+/* DOWNLOAD CARD STYLES */
+.downloadCard {
+  background-color: $c_white;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: $transition;
+
+  &:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .cardHeader {
+    padding: 20px 15px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      font-size: 15px;
+      font-weight: 500;
+      color: $c_heading;
+      margin: 0;
+    }
+  }
+
+  .downloadBtn {
+    border-radius: 0;
+    padding: 12px;
+    box-shadow: none;
+    font-size: 14px;
+    text-transform: none;
+    background-color: $c_primary;
+
+    &:hover {
+      background-color: $c_primary;
+      box-shadow: none;
+    }
+  }
+}
